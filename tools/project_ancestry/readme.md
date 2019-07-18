@@ -30,9 +30,11 @@ How to execute
 ===============
 If the script and config file are in same directory:
 
-python gcp_org_hierarchy.py gcp_org_hierarchy.config
+python gcp_org_hierarchy.py config_file=gcp_org_hierarchy.config
 
-Otherwise provide the path for config file.
+This has project id file location in the config file. Otherwise we can look up for one project:
+
+python gcp_org_hierarchy.py config_file=gcp_org_hierarchy.config project_id=cardinal-data-piper-sbx
 
 
 Log files:

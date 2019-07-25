@@ -14,9 +14,6 @@
 
 
 import unittest
-import httplib2
-from oauth2client.service_account import ServiceAccountCredentials
-from apiclient.discovery import build
 from google.cloud import bigquery
 import os
 import sys
@@ -25,10 +22,10 @@ CONFIG_FILE = 'config_file'
 
 sys.path.append('..')
 
-from folder_look_up import folder_lkp
-from get_org_nm import get_org_nm
-from get_ancestry_by_record_type import get_ancestry
-from bigquery_load import bq_insert, bq_check_delete
+from source.folder_look_up import folder_lkp
+from source.get_org_nm import get_org_nm
+from source.get_ancestry import get_ancestry
+from source.bigquery_load import bq_insert, bq_check_delete
 import constants
 import logging
 
@@ -36,7 +33,7 @@ import logging
 
 class TestOrgFolderHierarchy(unittest.TestCase):
     """
-    This class is a test suite to test functions used in gcp_org_hierarchy.py
+    This class is a test suite to test functions used in main.py
     """
 
     def setUp(self):

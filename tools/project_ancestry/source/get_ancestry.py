@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from source import access, bigquery_load, folder_look_up
+import access, bigquery_load, folder_look_up
 import json
 import get_org_nm
 import logging

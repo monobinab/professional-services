@@ -28,13 +28,13 @@ Please refer to gcp_org_hierarchy.config
 
 How to execute
 ===============
-If the script and config file are in same directory:
+cd project_ancestry
 
-python gcp_org_hierarchy.py config_file=gcp_org_hierarchy.config
+python ./source/main.py config_file=./config/gcp_org_hierarchy.config
 
 This has project id file location in the config file. Otherwise we can look up for one project:
 
-python gcp_org_hierarchy.py config_file=gcp_org_hierarchy.config project_id=cardinal-data-piper-sbx
+python ./source/main.py config_file=./config/gcp_org_hierarchy.config project_id=cardinal-data-piper-sbx
 
 
 Log files:

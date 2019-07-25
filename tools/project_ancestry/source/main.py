@@ -21,10 +21,10 @@
 # 2. BigQuery table update (e.g. cardinal-data-piper-sbx.public.project_ancestry) in this example
 
 import sys
-import get_ancestry_by_record_type
+import get_ancestry
 #import get_ancestry_by_projectid_folder_cols
 import logging
-from source import access
+import access
 import ConfigParser
 
 
@@ -38,11 +38,11 @@ def main(**kwargs):
     2. project_id or projectid_file (optional parameter): in python keyword argument format.
 
     The script can be run like this:
-    python gcp_org_hierarchy.py config_file=gcp_org_hierarchy.config
+    python main.py config_file=gcp_org_hierarchy.config
     Or
-    python gcp_org_hierarchy.py config_file=gcp_org_hierarchy.config project_id = <project id value>
+    python main.py config_file=gcp_org_hierarchy.config project_id = <project id value>
     Or
-    python gcp_org_hierarchy.py config_file=gcp_org_hierarchy.config projectid_file = <project id file location>
+    python main.py config_file=gcp_org_hierarchy.config projectid_file = <project id file location>
 
     :param kwargs:
     :return:
@@ -61,7 +61,7 @@ def main(**kwargs):
         projectid = kwargs['project_id']
         config_file = kwargs['config_file']
         logging.info("Beginning Project Hierarchy Lookup.")
-        get_ancestry_by_record_type.project_ancestry_bq_update(projectid, errorfile_obj, config_file)
+        get_ancestry.project_ancestry_bq_update(projectid, errorfile_obj, config_file)
         # get_ancestry_by_projectid_folder_cols.project_ancestry_bq_update(projectid, errorfile_obj, config_file)
 
     elif 'config_file' in kwargs.keys():
@@ -76,7 +76,7 @@ def main(**kwargs):
             if line.strip():
                 projectid = line.strip()
                 logging.info("Beginning Project Hierarchy Lookup.")
-                get_ancestry_by_record_type.project_ancestry_bq_update(projectid, errorfile_obj, config_file)
+                get_ancestry.project_ancestry_bq_update(projectid, errorfile_obj, config_file)
                 # get_ancestry_by_projectid_folder_cols.project_ancestry_bq_update(projectid, errorfile_obj, config_file)
 
     else:

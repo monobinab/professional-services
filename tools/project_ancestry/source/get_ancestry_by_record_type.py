@@ -1,9 +1,7 @@
 #!/usr/bin/python
-import access
+from source import access, bigquery_load, folder_look_up
 import json
-import folder_look_up
 import get_org_nm
-import bigquery_load
 import logging
 import ConfigParser
 import pprint

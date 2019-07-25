@@ -24,7 +24,7 @@ import sys
 import get_ancestry_by_record_type
 #import get_ancestry_by_projectid_folder_cols
 import logging
-import access
+from source import access
 import ConfigParser
 
 

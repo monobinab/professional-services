@@ -12,7 +12,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import access
+from source import access
+
 
 # get organization name by organization id.  This script is called in get_ancestry_by_projectid.py
 def get_org_nm(resource_id, config_file):

@@ -14,7 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import access
+from source import access
+
 
 # folder name look up by folder id. This script is called in get_ancestry_by_projectid.py
 def folder_lkp(resource_id, config_file):

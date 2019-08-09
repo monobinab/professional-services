@@ -1,0 +1,194 @@
+[
+  {
+    "name": "billing_account_id", 
+    "type": "STRING"
+  }, 
+  {
+    "fields": [
+      {
+        "name": "id", 
+        "type": "STRING"
+      }, 
+      {
+        "name": "description", 
+        "type": "STRING"
+      }
+    ], 
+    "name": "service", 
+    "type": "RECORD"
+  }, 
+  {
+    "fields": [
+      {
+        "name": "id", 
+        "type": "STRING"
+      }, 
+      {
+        "name": "description", 
+        "type": "STRING"
+      }
+    ], 
+    "name": "sku", 
+    "type": "RECORD"
+  }, 
+  {
+    "name": "usage_start_time", 
+    "type": "TIMESTAMP"
+  }, 
+  {
+    "name": "usage_end_time", 
+    "type": "TIMESTAMP"
+  }, 
+  {
+    "fields": [
+      {
+        "name": "id", 
+        "type": "STRING"
+      }, 
+      {
+        "name": "name", 
+        "type": "STRING"
+      }, 
+      {
+        "fields": [
+          {
+            "name": "key", 
+            "type": "STRING"
+          }, 
+          {
+            "name": "value", 
+            "type": "STRING"
+          }
+        ], 
+        "mode": "REPEATED", 
+        "name": "labels", 
+        "type": "RECORD"
+      }, 
+      {
+        "name": "ancestry_numbers", 
+        "type": "STRING"
+      }
+    ], 
+    "name": "project", 
+    "type": "RECORD"
+  }, 
+  {
+    "fields": [
+      {
+        "name": "key", 
+        "type": "STRING"
+      }, 
+      {
+        "name": "value", 
+        "type": "STRING"
+      }
+    ], 
+    "mode": "REPEATED", 
+    "name": "labels", 
+    "type": "RECORD"
+  }, 
+  {
+    "fields": [
+      {
+        "name": "key", 
+        "type": "STRING"
+      }, 
+      {
+        "name": "value", 
+        "type": "STRING"
+      }
+    ], 
+    "mode": "REPEATED", 
+    "name": "system_labels", 
+    "type": "RECORD"
+  }, 
+  {
+    "fields": [
+      {
+        "name": "location", 
+        "type": "STRING"
+      }, 
+      {
+        "name": "country", 
+        "type": "STRING"
+      }, 
+      {
+        "name": "region", 
+        "type": "STRING"
+      }, 
+      {
+        "name": "zone", 
+        "type": "STRING"
+      }
+    ], 
+    "name": "location", 
+    "type": "RECORD"
+  }, 
+  {
+    "name": "export_time", 
+    "type": "TIMESTAMP"
+  }, 
+  {
+    "name": "cost", 
+    "type": "FLOAT"
+  }, 
+  {
+    "name": "currency", 
+    "type": "STRING"
+  }, 
+  {
+    "name": "currency_conversion_rate", 
+    "type": "FLOAT"
+  }, 
+  {
+    "fields": [
+      {
+        "name": "amount", 
+        "type": "FLOAT"
+      }, 
+      {
+        "name": "unit", 
+        "type": "STRING"
+      }, 
+      {
+        "name": "amount_in_pricing_units", 
+        "type": "FLOAT"
+      }, 
+      {
+        "name": "pricing_unit", 
+        "type": "STRING"
+      }
+    ], 
+    "name": "usage", 
+    "type": "RECORD"
+  }, 
+  {
+    "fields": [
+      {
+        "name": "name", 
+        "type": "STRING"
+      }, 
+      {
+        "name": "amount", 
+        "type": "FLOAT"
+      }
+    ], 
+    "mode": "REPEATED", 
+    "name": "credits", 
+    "type": "RECORD"
+  }, 
+  {
+    "fields": [
+      {
+        "name": "month", 
+        "type": "STRING"
+      }
+    ], 
+    "name": "invoice", 
+    "type": "RECORD"
+  }, 
+  {
+    "name": "cost_type", 
+    "type": "STRING"
+  }
+]

@@ -1,0 +1,1 @@
+bq --location=US mk cardinal-data-piper-sbx:monobina_sbx.billing_export_delta ./gcp_billing_export_schema.json

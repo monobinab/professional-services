@@ -47,6 +47,7 @@ def http_extract_billing_delta_table(request):
     request_args = request.args
     logging_client = cloud_logging.Client()
     log_name = 'cloudfunctions.googleapis.com%2Fcloud-functions'
+    logging_client.logger('Started http extract.')
     logger = logging_client.logger(log_name)
     logger.log_text('Reading parameters')
 
@@ -59,8 +60,8 @@ def http_extract_billing_delta_table(request):
         dest_dataset_id = request_args['dest_dataset_id']
         dest_table_id = request_args['dest_table_id']
 
-        # logger.info('Will execute extract function')
-        # console.info("running extract")
+        logging_client.logger('Will execute extract function')
+
         extract_billing_delta_table(key_file, bucket_name, dump_file_name, project, dest_dataset_id, dest_table_id)
 
         return "Success!"
@@ -71,8 +72,11 @@ def http_extract_billing_delta_table(request):
 def extract_billing_delta_table(key_file, bucket_name, dump_file_name, project, dest_dataset_id, dest_table_id):
 
     client = bigquery.Client.from_service_account_json(key_file)
-    #client = bigquery.Client()
+
+    yesterday = datetime.strftime(datetime.now() - timedelta(1), '%Y%m%d')
+    dump_file_name = dump_file_name + "_" + yesterday + ".json"
     destination_uri = "gs://{}/{}".format(bucket_name, dump_file_name)
+
     dataset_id, table_id = load_interim_delta_table(key_file, dest_dataset_id, dest_table_id)
     dataset_ref = client.dataset(dataset_id, project=project)
     table_ref = dataset_ref.table(table_id)
@@ -95,7 +99,7 @@ def extract_billing_delta_table(key_file, bucket_name, dump_file_name, project, 
 
 def load_interim_delta_table(key_file, dest_dataset_id, dest_table_id):
     client = bigquery.Client.from_service_account_json(key_file)
-    #client = bigquery.Client()
+
     job_config = bigquery.QueryJobConfig()
     # Set the destination table
     table_ref = client.dataset(dest_dataset_id).table(dest_table_id)
@@ -105,9 +109,9 @@ def load_interim_delta_table(key_file, dest_dataset_id, dest_table_id):
     sql = """
                 SELECT *
                 FROM 
-                `data-analytics-pocs.billing.gcp_billing_export_v1_0090FE_ED3D81_AF8E3B`
-                --`cardinal-data-piper-sbx.public.gcp_billing_export_v1_EXAMPL_E0XD3A_DB33F1`
-                where cast(FORMAT_TIMESTAMP("%Y-%m-%d", _PARTITIONTIME) as date) = date_sub(current_date(), interval 1 day)
+                --`data-analytics-pocs.billing.gcp_billing_export_v1_0090FE_ED3D81_AF8E3B`
+                `cardinal-data-piper-sbx.public.gcp_billing_export_v1_EXAMPL_E0XD3A_DB33F1`
+                --where cast(FORMAT_TIMESTAMP("%Y-%m-%d", _PARTITIONTIME) as date) = date_sub(current_date(), interval 1 day)
                 limit 1000;
             """
 

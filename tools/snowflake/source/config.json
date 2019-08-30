@@ -1,0 +1,14 @@
+{
+	"key_file": "../terraform/cardinal-data-piper-sbx.json",
+	"bucket_name": "snowflake_project",
+	"project": "cardinal-data-piper-sbx",
+	"dest_dataset_id": "monobina_sbx",
+	"status_file_name" : "status_file.txt",
+	"export_detail": [{
+		"export_table": "data-analytics-pocs.public.billing_dashboard_export",
+		"destination_table": "billing_export_delta",
+		"dump_file": "billing_export_delta"
+	}
+
+	]
+}

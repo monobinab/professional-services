@@ -1,89 +1,62 @@
-// Configure the Google Cloud provider
 provider "google" {
- credentials = "${file("cardinal-data-piper-sbx.json")}"
- project     = "cardinal-data-piper-sbx"
- region      = "us-west1"
+  project = "${var.project_id}"
+  region = "${var.region}"
+  credentials="${file(var.credentials_path)}"
 }
 
-//resource "google_sourcerepo_repository" "Billing" {
-//  name = "Billing/snowflake"
-//}
-
-module "consul" {
- source = "git@github.com:monobinab/professional-services.git?ref=snowflake"
+data "google_compute_image" "ubuntu" {
+  family = "ubuntu-1804-lts"
+  project = "gce-uefi-images"
 }
 
-// Terraform plugin for creating random ids
-resource "random_id" "instance_id" {
- byte_length = 8
+resource "google_compute_instance_template" "exporter_vm_template" {
+    name_prefix = "billing-exporter-instance-template-"
+    description = "This VM is being used to dump the billing data from Big Query to a designated GCS bucket."
+    instance_description = "Billing Exporter Job Server"
+    machine_type         = "n1-standard-1"
+    can_ip_forward       = false
+
+    scheduling {
+        preemptible = true
+        automatic_restart   = false
+        on_host_maintenance = "TERMINATE"
+    }
+
+  // Create a new boot disk from an image
+    disk {
+        source_image = "${data.google_compute_image.ubuntu.self_link}"
+        auto_delete  = true
+        boot         = true
+    }
+    network_interface {
+        network = "default"
+    }
+    service_account {
+        email = "${var.service_account}"
+        scopes = ["cloud-platform"]
+    }
+    metadata_startup_script = <<SCRIPT
+    sudo apt-get update
+    sudo apt-get install -yq python3  python-pip3 build-essential libssl-dev libffi-dev python-dev
+    pip install google-cloud-storage
+    gcloud init
+    mkdir /opt/billing_exporter
+    cd /opt/billing-exporter
+    touch placeholder.txt
+    SCRIPT
+    lifecycle {
+        create_before_destroy = true
+    }
 }
 
-/*resource "github_user_ssh_key" "snowflake_rsa" {
-  title = "snowflake_rsa"
-  key   = "${file("~/.ssh/terraform_key.pub")}"
-}*/
-
-provider "docker" {}
-
-# declare any input variables
-
-# create docker volume resource
-
-# create docker network resource
-
-# create db container
-
-# create wordpress container
-resource "docker_container" "snowflakebigqueryextract" {
-  name  = "snowflakebigqueryextract"
-  image = "snowflake-test:latest"
-  restart = "always"
-  ports = {
-    internal = "80"
-    external = "8080"
-  }
+resource "google_compute_instance_from_template" "test_vm" {
+  name = "billing-export-test-vm"
+  zone = "${var.zone}"
+  source_instance_template = "${google_compute_instance_template.exporter_vm_template.self_link}"
+  scheduling {
+    preemptible = true
+    automatic_restart   = false
+    on_host_maintenance = "TERMINATE"
+    }
 }
-
-// A single Google Cloud Engine instance
-resource "google_compute_instance" "snowflake" {
-   name         = "snowflake"
-   machine_type = "f1-micro"
-   zone         = "us-west1-a"
-
-   tags = ["dataextract"]
-
-   boot_disk {
-     initialize_params {
-       image = "cos-cloud/cos-stable"
-     }
-   }
-
-   network_interface {
-     network = "default"
-
-     access_config {
-       // Ephermal ip
-     }
-   }
-
-   metadata = {
-     sshKeys = "monobina:${file(var.ssh_public_key_filepath)}"
-   }
-
-   // Once VM is started, run these commands
-   //metadata_startup_script = "${file("install_vm.sh")}"
-   metadata_startup_script = "docker build --tag=snowflake-test . "
-
-
-/*  service_account {
-    "cardinal-data-piper-sbx@cardinal-data-piper-sbx.iam.gserviceaccount.com"
-    scopes = ["cloud-platform", "compute-ro"]
-  }*/
-}
-
-//resource "google_service_account" "object_viewer" {
-  //account_id   = "cardinal-data-piper-sbx"
-  //email = "cardinal-data-piper-sbx@cardinal-data-piper-sbx.iam.gserviceaccount.com"
-  //name = "cardinal-data-piper-sbx"
-//}
 

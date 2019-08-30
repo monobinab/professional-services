@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"consul","Source":"git@github.com:monobinab/professional-services.git?ref=snowflake","Dir":".terraform/modules/consul"}]}
